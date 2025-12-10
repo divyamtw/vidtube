@@ -9,11 +9,11 @@ dotenv.config({
 const PORT = process.env.PORT || 8001;
 
 connectDB()
-  .then(
+  .then(() => {
     app.listen(PORT, () => {
       console.log(`\n=> Server is RUNNING on PORT ${PORT}`);
-    })
-  )
+    });
+  })
   .catch((error) => {
     console.log("=> MongoDB connection error", error);
   });

@@ -27,7 +27,6 @@ const userSchema = new Schema(
     },
     avatar: {
       type: String, //cloudinary url
-      required: true,
     },
     coverImage: {
       type: String, //cloudinary url
@@ -50,9 +49,9 @@ const userSchema = new Schema(
 );
 
 userSchema.pre("save", function (next) {
-  if (!this.modified("password")) return next();
+  if (!this.isModified("password")) return next;
   this.password = bcrypt.hash(this.password, 10);
-  next();
+  next;
 });
 
 userSchema.methods.isPasswordCorrect = async function (password) {
@@ -72,7 +71,7 @@ userSchema.methods.generateAccessToken = function () {
 };
 
 userSchema.methods.generateRefreshToken = function () {
-  // short lived access token
+  // short lived refresh token
   return jwt.sign(
     {
       _id: this._id,
